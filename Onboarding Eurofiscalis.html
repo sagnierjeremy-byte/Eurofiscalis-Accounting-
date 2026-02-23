@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SOP Onboarding - Espace Collaborateur Eurofiscalis</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Poppins', ui-sans-serif, system-ui;
+      background-color: #0F1116;
+      color: #E5E7EB;
+      line-height: 1.5;
+    }
+
+    :root {
+      --bg: #0F1116; 
+      --card-bg: #161B22; 
+      --stroke: rgba(255, 255, 255, .1);
+      --ef-green: #5ecd8c;
+      --ef-green-dim: rgba(94, 205, 140, 0.1);
+      --highlight: #FF9900;
+      --highlight-dim: rgba(255, 153, 0, 0.1);
+      --danger: #EF4444;
+      --muted: #9CA3AF;
+      --blue-info: #3B82F6;
+      --blue-dim: rgba(59, 130, 246, 0.1);
+      --purple-booking: #8B5CF6;
+      --purple-dim: rgba(139, 92, 246, 0.1);
+    }
+
+    .container { max-width: 900px; margin-inline: auto; padding: 0 16px 80px 16px; }
+
+    .top-bar {
+      background: rgba(22, 27, 34, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--stroke);
+      padding: 16px 0;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .top-bar-content {
+      max-width: 900px; margin: 0 auto; padding: 0 16px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .brand { font-weight: 800; font-size: 16px; color: #fff; display: flex; align-items: center; gap: 8px; }
+    .brand span { color: var(--ef-green); }
+    .badge-internal { 
+      background: #333; color: #fff; font-size: 10px; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px;
+    }
+
+    .filters {
+      display: flex; gap: 10px; overflow-x: auto; padding: 20px 0;
+      scrollbar-width: none;
+    }
+    .filters::-webkit-scrollbar { display: none; }
+    .filter-btn {
+      background: transparent; border: 1px solid var(--stroke); color: var(--muted);
+      padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
+      cursor: pointer; white-space: nowrap; transition: 0.2s; font-family: inherit;
+    }
+    .filter-btn:hover { border-color: var(--ef-green); color: #fff; }
+    .filter-btn.active { background: var(--ef-green); color: #0F1116; border-color: var(--ef-green); }
+
+    .sop-step {
+      background: var(--card-bg); border: 1px solid var(--stroke); border-radius: 12px;
+      margin-bottom: 40px; overflow: hidden; border-left: 4px solid var(--ef-green);
+    }
+    .step-header {
+      padding: 24px; border-bottom: 1px solid var(--stroke); background: rgba(255,255,255,0.02);
+      display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;
+    }
+    .step-title h2 { margin: 0; font-size: 20px; font-weight: 700; color: #fff; }
+    .step-title span { display: block; font-size: 13px; color: var(--ef-green); margin-bottom: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+    .owner-tag { font-size: 12px; background: var(--stroke); padding: 4px 10px; border-radius: 6px; color: #fff; }
+
+    .step-content { padding: 24px; }
+
+    .phase-block { margin-bottom: 24px; border: 1px solid var(--stroke); border-radius: 8px; overflow: hidden; }
+    .phase-block:last-child { margin-bottom: 0; }
+    .phase-header {
+      padding: 10px 16px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    }
+    .phase-body { padding: 16px; background: rgba(255,255,255,0.01); }
+
+    .phase-inputs .phase-header { background: var(--blue-dim); color: var(--blue-info); border-bottom: 1px solid rgba(59, 130, 246, 0.2); }
+    .phase-actions .phase-header { background: rgba(255,255,255,0.05); color: #fff; border-bottom: 1px solid var(--stroke); }
+    .phase-done .phase-header { background: var(--ef-green-dim); color: var(--ef-green); border-bottom: 1px solid rgba(94, 205, 140, 0.2); }
+    .phase-resources .phase-header { background: #222; color: var(--muted); border-bottom: 1px solid var(--stroke); }
+    .phase-booking .phase-header { background: var(--purple-dim); color: var(--purple-booking); border-bottom: 1px solid rgba(139, 92, 246, 0.2); }
+
+    .email-box {
+      font-family: 'Courier New', Courier, monospace; font-size: 13px;
+      background: #000; color: #ccc; padding: 15px; border-radius: 4px;
+      white-space: pre-wrap; border: 1px solid var(--stroke); margin-top: 0;
+    }
+    .email-variable { color: var(--highlight); font-weight: bold; }
+    .copy-btn {
+      background: transparent; border: 1px solid var(--muted); color: var(--muted);
+      font-size: 10px; padding: 4px 8px; border-radius: 4px; cursor: pointer; text-transform: uppercase; font-family: inherit;
+    }
+    .copy-btn:hover { background: #fff; color: #000; }
+
+    .checklist { list-style: none; padding: 0; margin: 0; }
+    .checklist li {
+      margin-bottom: 8px; display: flex; flex-direction: column; gap: 4px;
+      font-size: 14px; color: #E5E7EB; padding-bottom: 8px;
+      border-bottom: 1px dashed rgba(255,255,255,0.05);
+    }
+    .checklist li:last-child { margin-bottom: 0; border-bottom: none; }
+    .check-wrap { display: flex; align-items: flex-start; gap: 12px; width: 100%; cursor: pointer; }
+
+    .checklist input[type="checkbox"] {
+      appearance: none; width: 18px; height: 18px; border: 2px solid var(--muted); border-radius: 4px;
+      margin-top: 3px; flex-shrink: 0; cursor: pointer; position: relative;
+    }
+    .checklist input[type="checkbox"]:checked { background: var(--ef-green); border-color: var(--ef-green); }
+    .checklist input[type="checkbox"]:checked::after {
+      content: "✓"; position: absolute; top: -2px; left: 3px; color: #000; font-size: 12px; font-weight: bold;
+    }
+    .checklist input[type="checkbox"]:checked + span { text-decoration: line-through; opacity: 0.5; }
+
+    .important-note { color: var(--highlight); font-weight: 600; display: inline; font-size: 13px; }
+    .sub-action { display: block; margin-left: 32px; font-size: 12px; color: var(--ef-green); font-style: italic; }
+    
+    .checklist-separator {
+      color: var(--highlight); font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; margin-top: 16px; margin-bottom: 8px; display: block;
+      padding-bottom: 4px; border-bottom: 1px solid var(--stroke);
+    }
+    li:first-child .checklist-separator { margin-top: 0; }
+
+    .booking-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--purple-booking); color: #fff; font-weight: 600;
+      padding: 8px 12px; border-radius: 6px; font-size: 12px; text-decoration: none;
+      margin-right: 8px; margin-bottom: 8px; transition: 0.2s; border: none; cursor: pointer;
+    }
+    .booking-btn:hover { background: #7C3AED; transform: translateY(-1px); }
+    .booking-btn.small { background: transparent; border: 1px solid var(--stroke); color: var(--muted); }
+    .booking-btn.small:hover { border-color: var(--ef-green); color: #fff; background: transparent; }
+
+    .booking-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin-top: 10px;
+    }
+    .booking-category {
+      font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; margin-bottom: 6px; display: block; margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="top-bar">
+    <div class="top-bar-content">
+      <div class="brand">
+        <span>Eurofiscalis</span> SOP Onboarding
+        <span class="badge-internal">Process Interne v4.0</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <nav class="filters">
+      <button class="filter-btn active" onclick="filterSteps('all', this)">Tout voir</button>
+      <button class="filter-btn" onclick="filterSteps('chef', this)">Chef de Mission</button>
+      <button class="filter-btn" onclick="filterSteps('charge', this)">Chargé de Compte</button>
+      <button class="filter-btn" onclick="filterSteps('tva', this)">Expert TVA</button>
+      <button class="filter-btn" onclick="filterSteps('social', this)">Social</button>
+      <button class="filter-btn" onclick="filterSteps('commercial', this)">Commercial</button>
+    </nav>
+
+    <!-- STEP 1 -->
+    <section class="sop-step" data-role="chef">
+      <div class="step-header">
+        <div class="step-title"><span>Étape 1</span><h2>RDV de Démarrage</h2></div>
+        <div class="owner-tag">👤 Chef de Mission</div>
+      </div>
+      <div class="step-content">
+        <p style="font-size:14px; margin-bottom:20px; color:#fff; background:var(--ef-green-dim); padding:10px; border-radius:6px; border:1px solid var(--ef-green);">
+          <strong>Objectif :</strong> Lancer officiellement la collaboration, comprendre le business model en détail et récupérer les accès.
+        </p>
+
+        <div class="phase-block phase-inputs">
+          <div class="phase-header">📥 Inputs obligatoires AVANT le RDV</div>
+          <div class="phase-body">
+            <ul class="checklist">
+              <li><label class="check-wrap"><input type="checkbox"><span>Fiche CRM créée et coordonnées vérifiées.</span></label></li>
+              <li><label class="check-wrap"><input type="checkbox"><span>Lettre de Mission chargée.</span></label></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase-block phase-actions">
+          <div class="phase-header">▶️ Checklist PENDANT le RDV</div>
+          <div class="phase-body">
+            <ul class="checklist">
+              <span class="checklist-separator">ADMINISTRATIF</span>
+              <li><label class="check-wrap"><input type="checkbox"><span>Vérifier l'envoi de la résiliation (Preuve ?).</span></label></li>
+              <li><label class="check-wrap"><input type="checkbox"><span>Faire signer la <strong>Lettre de Mission</strong> en live.</span></label></li>
+              <span class="checklist-separator">ACCÈS & SUITE</span>
+              <li>
+                <label class="check-wrap"><input type="checkbox"><span><strong>Demander les accès :</strong> Amazon SC, Shopify...</span></label>
+                <span class="sub-action">→ Email accès Amazon : <strong style="color:var(--highlight)">accounting-fr@eurofiscalis.com</strong></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase-block phase-booking">
+          <div class="phase-header">📅 PLANIFIER LA SUITE</div>
+          <div class="phase-body">
+            <span class="booking-category">Planifier l'Étape 2 avec le Chargé de Compte :</span>
+            <div class="booking-grid">
+              <a href="#" class="booking-btn small">Laura G.</a>
+              <a href="#" class="booking-btn small">Vanina D.</a>
+              <a href="#" class="booking-btn small">Lukas G.</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-block phase-done">
+          <div class="phase-header">✅ Definition of Done</div>
+          <div class="phase-body">
+            <ul class="checklist">
+              <li><label class="check-wrap"><input type="checkbox"><span>LDM signée & Preuve résiliation archivées.</span></label></li>
+              <li><label class="check-wrap"><input type="checkbox"><span>Courrier déontologique envoyé.</span></label></li>
+              <li><label class="check-wrap"><input type="checkbox"><span>RDV Étape 2 booké.</span></label></li>
+              <li><label class="check-wrap"><input type="checkbox"><span>Email récap envoyé au client.</span></label></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase-block phase-resources">
+          <div class="phase-header">
+            📧 Modèle de Mail à envoyer
+            <button class="copy-btn" onclick="copyEmail('mail-1')">Copier</button>
+          </div>
+          <div class="phase-body" style="padding:0;">
+<div class="email-box" id="mail-1">Objet : Récap de notre rendez-vous & prochaine étape de votre onboarding Eurofiscalis
+
+Bonjour <span class="email-variable">{{Prénom}}</span>,
+
+Merci pour votre temps lors de notre rendez-vous de démarrage aujourd'hui.
+
+Voici un récapitulatif rapide de ce que nous avons fait :
+- Votre lettre de mission a été validée et la collaboration est officiellement lancée.
+- Nous avons fait le point sur votre activité, vos canaux de vente et vos obligations fiscales.
+- Nous avons commencé à organiser le transfert de votre dossier depuis votre ancien expert-comptable.
+- Nous avons parlé de vos prochaines échéances (TVA, IS, CFE, etc.).
+
+✅ Prochaine étape : rendez-vous avec votre chargé de compte comptable (Étape 2)
+
+- Date : <span class="email-variable">{{Date_Rdv_Etape2}}</span>
+- Heure : <span class="email-variable">{{Heure_Rdv_Etape2}}</span>
+- En visio avec : <span class="email-variable">{{Nom_Chargé_Compte}}</span>
+- Lien de connexion : <span class="email-variable">{{Lien_Visio_Etape2}}</span>
+
+Pendant ce rendez-vous, nous allons :
+- Paramétrer concrètement votre espace Pennylane.
+- Vous montrer comment déposer vos factures et connecter vos comptes bancaires.
+- Créer votre accès à l'espace Skool (formations + contacts + liens utiles).
+- Clarifier qui fait quoi pour les prochaines déclarations de TVA.
+
+📝 Pour préparer au mieux ce prochain rendez-vous, vous pouvez :
+- Vérifier que vous avez bien accès à votre espace impots.gouv.fr (ou vos identifiants sous la main).
+- Rassembler vos modèles de factures actuels.
+- Préparer d'éventuelles questions sur votre organisation comptable actuelle.
+
+En cas d'empêchement, vous pouvez utiliser le lien « replanifier » présent dans l'e-mail d'invitation au rendez-vous.
+
+À très vite,
+
+<span class="email-variable">{{Signature_Chef_Mission}}</span>
+Eurofiscalis</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 2 -->
+    <section class="sop-step" data-role="charge">
+      <div class="step-header">
+        <div class="step-title"><span>Étape 2</span><h2>Outils & Organisation Fiscale</h2></div>
+        <div class="owner-tag">💻 Chargé de Compte</div>
+      </div>
+      <div class="step-content">
+        <div class="phase-block phase-booking">
+          <div class="phase-header">📅 PLANIFIER LA SUITE (Fixer le J+30)</div>
+          <div class="phase-body">
+            <p style="font-size:13px; color:#aaa; margin-bottom:10px;">Prenez le RDV directement sur votre calendrier.</p>
+          </div>
+        </div>
+
+        <div class="phase-block phase-done">
+          <div class="phase-header">✅ Definition of Done</div>
+          <div class="phase-body">
+            <ul class="checklist">
+              <li><label class="check-wrap"><input type="checkbox"><span>Pennylane paramétré & banques connectées.</span></label></li>
+              <li><label class="check-wrap"><input type="checkbox"><span>RDV Suivi J+30 booké.</span></label></li>
+              <li><label class="check-wrap"><input type="checkbox"><span>Email récap envoyé.</span></label></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase-block phase-resources">
+          <div class="phase-header">
+            📧 Modèle de Mail à envoyer
+            <button class="copy-btn" onclick="copyEmail('mail-2')">Copier</button>
+          </div>
+          <div class="phase-body" style="padding:0;">
+<div class="email-box" id="mail-2">Objet : Vous êtes maintenant connecté – voici la suite de votre onboarding Eurofiscalis
+
+Bonjour <span class="email-variable">{{Prénom}}</span>,
+
+Merci pour notre rendez-vous d'aujourd'hui.
+
+Voici ce que nous avons mis en place ensemble :
+- Votre accès Pennylane est opérationnel (connexion et premières explications).
+- Nous avons vu comment déposer vos factures et suivre vos flux bancaires.
+- Nous avons fait le point sur vos véhicules / indemnités kilométriques et vos achats (perso/pro).
+- Nous avons créé / présenté votre accès à l'espace Skool.
+
+✅ Prochaine étape : rendez-vous de suivi J+30 (Étape 4)
+
+- Date : <span class="email-variable">{{Date_Rdv_J30}}</span>
+- Heure : <span class="email-variable">{{Heure_Rdv_J30}}</span>
+- En visio avec : <span class="email-variable">{{Nom_Comptable_Dédié}}</span>
+- Lien de connexion : <span class="email-variable">{{Lien_Visio_J30}}</span>
+
+Pendant ce rendez-vous, nous allons :
+- Vérifier que toutes vos ventes (Amazon, marketplaces, site, etc.) remontent bien.
+- Faire un point sur la récupération et le traitement de vos pièces comptables.
+- Vérifier votre aisance sur Pennylane et ajuster si besoin.
+- Discuter de vos besoins en suivi des chiffres (KPI, tableaux de bord, etc.).
+
+📝 D'ici là, pensez à :
+- Déposer régulièrement vos factures d'achats et de ventes dans Pennylane.
+- Nous transmettre, si ce n'est pas déjà fait, les documents demandés (carte grise, contrat de domiciliation, etc.).
+- Noter vos questions ou difficultés pour qu'on puisse les traiter ensemble lors du J+30.
+
+Vous conservez également un accès permanent à Skool, où vous retrouvez les tutoriels et les contacts de l'équipe.
+
+À bientôt,
+
+<span class="email-variable">{{Signature_Chargé_Compte}}</span>
+Eurofiscalis</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 3 -->
+    <section class="sop-step" data-role="tva">
+      <div class="step-header">
+        <div class="step-title"><span>Étape 3 (A)</span><h2>RDV Conformité TVA</h2></div>
+        <div class="owner-tag">🌍 Jimmy / Séverine</div>
+      </div>
+      <div class="step-content">
+        <div class="phase-block phase-done">
+          <div class="phase-header">✅ Definition of Done</div>
+          <div class="phase-body">
+            <ul class="checklist">
+              <li><label class="check-wrap"><input type="checkbox"><span>Suivi dossiers TVA créé.</span></label></li>
+              <li><label class="check-wrap"><input type="checkbox"><span>Production PandaDoc lancée.</span></label></li>
+              <li><label class="check-wrap"><input type="checkbox"><span>Email récap envoyé.</span></label></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase-block phase-resources">
+          <div class="phase-header">
+            📧 Modèle de Mail à envoyer
+            <button class="copy-btn" onclick="copyEmail('mail-3a')">Copier</button>
+          </div>
+          <div class="phase-body" style="padding:0;">
+<div class="email-box" id="mail-3a">Objet : Dossiers TVA – prochaines étapes avec Eurofiscalis
+
+Bonjour <span class="email-variable">{{Prénom}}</span>,
+
+Merci pour votre disponibilité lors de notre échange TVA.
+
+Voici un point rapide sur ce qui a été fait :
+- Nous avons fait le point sur vos numéros de TVA par pays et vos obligations.
+- Le devis et les CGV pour l'accompagnement TVA ont été validés.
+- Nous avons expliqué le fonctionnement des dossiers PandaDoc à compléter.
+
+✅ Prochaine étape côté TVA
+
+- Vous allez recevoir un ou plusieurs dossiers PandaDoc à compléter et signer pour chaque pays concerné.
+- Une fois vos réponses envoyées :
+  - Notre équipe TVA vérifie les informations.
+  - Nous transmettons les dossiers aux administrations.
+  - Nous vous informons dès qu'un dossier est validé et que nous pouvons commencer à déposer les déclarations.
+
+📝 À préparer / vérifier de votre côté :
+- Preuve de résiliation de votre ancien prestataire TVA (si ce n'est pas déjà transmis).
+- Certificats d'immatriculation TVA par pays.
+- Copies des 3 dernières déclarations de TVA par pays.
+- Courriers importants reçus des administrations fiscales.
+
+Très important : merci de vérifier que votre ancien prestataire ne dépose plus de déclarations.
+
+En cas de doute ou de besoin d'accompagnement pour remplir les PandaDoc, nous pourrons planifier un rendez-vous dédié avec notre équipe TVA.
+
+Bien à vous,
+
+<span class="email-variable">{{Signature_TVA}}</span>
+Eurofiscalis</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 4 -->
+    <section class="sop-step" data-role="charge">
+      <div class="step-header">
+        <div class="step-title"><span>Étape 4</span><h2>Suivi J+30</h2></div>
+        <div class="owner-tag">📈 Comptable Dédié</div>
+      </div>
+      <div class="step-content">
+        <div class="phase-block phase-booking">
+          <div class="phase-header">📅 PLANIFIER LA SUITE (Important)</div>
+          <div class="phase-body">
+            <span class="booking-category">1. RDV Bilan Commercial :</span>
+            <a href="#" class="booking-btn">Agenda Jérémy Sagnier</a>
+          </div>
+        </div>
+
+        <div class="phase-block phase-done">
+          <div class="phase-header">✅ Definition of Done</div>
+          <div class="phase-body">
+            <ul class="checklist">
+              <li><label class="check-wrap"><input type="checkbox"><span>RDV Commercial Jérémy booké.</span></label></li>
+              <li><label class="check-wrap"><input type="checkbox"><span>Plan de compte mis à jour.</span></label></li>
+              <li><label class="check-wrap"><input type="checkbox"><span>Email récap envoyé.</span></label></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase-block phase-resources">
+          <div class="phase-header">
+            📧 Modèle de Mail à envoyer
+            <button class="copy-btn" onclick="copyEmail('mail-4')">Copier</button>
+          </div>
+          <div class="phase-body" style="padding:0;">
+<div class="email-box" id="mail-4">Objet : Point J+30 terminé – voici comment se poursuit votre suivi
+
+Bonjour <span class="email-variable">{{Prénom}}</span>,
+
+Merci pour votre temps lors de notre rendez-vous de suivi J+30.
+
+Ce que nous avons validé ensemble :
+- Le fonctionnement des flux comptables (ventes, banques, pièces sur Pennylane).
+- Votre niveau de confort sur les outils (Pennylane, Skool, échanges avec l'équipe).
+- Vos priorités du moment (trésorerie, marge, développement, etc.).
+- Votre retour sur l'onboarding et les pistes d'amélioration.
+
+✅ Prochaine étape : rendez-vous commercial avec Jérémy (Étape 5)
+
+- Date : <span class="email-variable">{{Date_Rdv_Commercial}}</span>
+- Heure : <span class="email-variable">{{Heure_Rdv_Commercial}}</span>
+- En visio avec : Jérémy Sagnier
+- Lien de connexion : <span class="email-variable">{{Lien_Visio_Commercial}}</span>
+
+Pendant ce rendez-vous, Jérémy va :
+- S'assurer que la collaboration est alignée avec vos attentes.
+- Recueillir votre feedback sur la qualité de service.
+- Voir avec vous comment nous pouvons vous accompagner encore mieux sur la suite (croissance, optimisation, etc.).
+
+De notre côté, nous continuons à :
+- Suivre vos déclarations et échéances fiscales.
+- Traiter vos pièces et demandes comptables au fil de l'eau.
+- Mettre à jour vos indicateurs si nous avons défini des KPI spécifiques.
+
+Si vous avez des questions avant ce prochain rendez-vous, vous pouvez nous répondre directement à ce mail.
+
+À bientôt,
+
+<span class="email-variable">{{Signature_Comptable_Dédié}}</span>
+Eurofiscalis</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 5 -->
+    <section class="sop-step" data-role="commercial">
+      <div class="step-header">
+        <div class="step-title"><span>Étape 5</span><h2>RDV Commercial</h2></div>
+        <div class="owner-tag">🚀 Jérémy</div>
+      </div>
+      <div class="step-content">
+        <div class="phase-block phase-done">
+          <div class="phase-header">✅ Definition of Done</div>
+          <div class="phase-body">
+            <ul class="checklist">
+              <li><label class="check-wrap"><input type="checkbox"><span>Liens Avis envoyés.</span></label></li>
+              <li><label class="check-wrap"><input type="checkbox"><span>Email de clôture envoyé.</span></label></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="phase-block phase-resources">
+          <div class="phase-header">
+            📧 Modèle de Mail à envoyer
+            <button class="copy-btn" onclick="copyEmail('mail-5')">Copier</button>
+          </div>
+          <div class="phase-body" style="padding:0;">
+<div class="email-box" id="mail-5">Objet : Merci pour votre retour – la suite de votre collaboration avec Eurofiscalis
+
+Bonjour <span class="email-variable">{{Prénom}}</span>,
+
+Merci pour l'échange d'aujourd'hui et pour le temps que vous nous avez accordé depuis votre arrivée chez Eurofiscalis.
+
+Votre phase d'onboarding est maintenant terminée ✅
+
+Concrètement, pour la suite :
+- Votre collaborateur comptable dédié reste votre point de contact principal pour le quotidien.
+- Les rendez-vous spécifiques (trésorerie, analyse financière, rémunération du dirigeant, etc.) seront planifiés au besoin.
+- Nous continuons à assurer le suivi de vos déclarations et de vos obligations fiscales dans le calendrier défini ensemble.
+
+Si vous avez partagé des idées d'amélioration ou des besoins complémentaires, notre équipe va les intégrer et revenir vers vous si un rendez-vous dédié est nécessaire.
+
+Enfin, si vous êtes satisfait de notre accompagnement :
+- Vous pouvez laisser un avis sur Google ou Trustpilot (liens : <span class="email-variable">INSÉRER LIENS</span>).
+- Et, bien sûr, vous pouvez recommander Eurofiscalis à d'autres e-commerçants de votre réseau.
+
+Merci encore pour votre confiance.
+
+Bien à vous,
+
+<span class="email-variable">{{Signature_Jeremy}}</span>
+Eurofiscalis</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    function filterSteps(role, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.sop-step').forEach(step => {
+        step.style.display = (role === 'all' || step.getAttribute('data-role') === role) ? 'block' : 'none';
+      });
+    }
+
+    function copyEmail(id) {
+      const emailText = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(emailText).then(() => {
+        alert("Email copié dans le presse-papier !");
+      }).catch(() => {
+        const range = document.createRange();
+        range.selectNode(document.getElementById(id));
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+        alert("Email copié !");
+      });
+    }
+  </script>
+
+</body>
+</html>

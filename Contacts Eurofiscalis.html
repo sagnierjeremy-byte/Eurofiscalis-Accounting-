@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vos Contacts Privilégiés - Eurofiscalis</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Poppins', ui-sans-serif, system-ui;
+      background-color: #0F1116;
+      color: #E5E7EB;
+      line-height: 1.6;
+    }
+
+    :root {
+      --bg: #0F1116; 
+      --card-bg: #161B22; 
+      --stroke: rgba(255, 255, 255, .08);
+      --ef-green: #5ecd8c;
+      --ef-green-hover: #4dbb7c;
+      --muted: #9CA3AF;
+    }
+
+    .container { max-width: 1140px; margin-inline: auto; padding-inline: 16px; }
+    .text-center { text-align: center; }
+    a { text-decoration: none; transition: 0.2s; }
+
+    .hdr-fixed {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: rgba(15, 17, 22, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--stroke);
+      z-index: 999; padding: 16px 0;
+    }
+    .hdr-content { display: flex; justify-content: center; align-items: center; gap: 20px; }
+    .logo { font-weight: 800; font-size: 20px; color: #fff; }
+    .logo span { color: var(--ef-green); }
+
+    .hero { margin-top: 100px; text-align: center; padding-bottom: 40px; border-bottom: 1px solid var(--stroke); }
+    .hero h1 { font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .hero p { color: var(--muted); max-width: 600px; margin: 0 auto 30px auto; }
+
+    .search-container { position: relative; max-width: 500px; margin: 0 auto; }
+    .search-input {
+      width: 100%; background: rgba(255,255,255,0.05);
+      border: 1px solid var(--stroke); padding: 14px 20px 14px 45px;
+      border-radius: 50px; color: #fff; font-size: 16px; outline: none; transition: 0.3s;
+    }
+    .search-input:focus { border-color: var(--ef-green); background: rgba(255,255,255,0.08); }
+    .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+
+    .dept-title {
+      font-size: 20px; font-weight: 700; color: #fff; margin: 60px 0 24px 0;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .dept-title::after { content: ""; flex-grow: 1; height: 1px; background: var(--stroke); margin-left: 10px; }
+    
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+
+    .card {
+      background: var(--card-bg); border: 1px solid var(--stroke); border-radius: 12px;
+      padding: 24px; transition: transform 0.2s, border-color 0.2s;
+      display: flex; flex-direction: column; height: 100%;
+    }
+    .card:hover { transform: translateY(-4px); border-color: rgba(94, 205, 140, 0.3); }
+
+    .role-badge {
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+      color: var(--ef-green); background: rgba(94, 205, 140, 0.1);
+      padding: 4px 10px; border-radius: 6px; align-self: flex-start; margin-bottom: 12px;
+    }
+    .name { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 16px; }
+
+    .info-row { display: flex; align-items: center; gap: 10px; font-size: 14px; margin-bottom: 8px; color: var(--muted); }
+    .info-row svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--ef-green); }
+    .info-row a { color: #E5E7EB; }
+    .info-row a:hover { color: var(--ef-green); text-decoration: underline; }
+
+    .btn-book {
+      display: block; text-align: center;
+      background: var(--ef-green); color: #000; font-weight: 600;
+      padding: 10px; border-radius: 8px; font-size: 14px; margin-top: auto;
+      padding-top: 20px; margin-top: 20px;
+    }
+    .btn-book:hover { background: var(--ef-green-hover); }
+
+    .cta-tva {
+      background: linear-gradient(135deg, rgba(94, 205, 140, 0.1), rgba(22, 27, 34, 0.5));
+      border: 1px dashed var(--ef-green); border-radius: 12px; padding: 24px; text-align: center; margin-top: 40px;
+    }
+    .cta-tva h3 { color: #fff; margin: 0 0 10px 0; }
+    .cta-tva p { font-size: 14px; margin-bottom: 20px; }
+
+    footer {
+      text-align: center; padding: 40px; margin-top: 80px; border-top: 1px solid var(--stroke);
+      color: var(--muted); font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hdr-fixed">
+    <div class="container hdr-content">
+      <a href="#" style="color:var(--muted); font-size:14px;">← Retour Onboarding</a>
+      <a href="#" class="logo"><span>Eurofiscalis</span> Contacts</a>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <section class="hero">
+      <h1>Annuaire des Contacts</h1>
+      <p>Retrouvez ci-dessous les coordonnées directes de tous vos interlocuteurs Eurofiscalis pour vous accompagner.</p>
+      <div class="search-container">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Rechercher par nom ou pôle (ex: TVA, Social, Kevin...)" onkeyup="filterContacts()">
+      </div>
+    </section>
+
+    <h2 class="dept-title">🚀 Direction & Commercial</h2>
+    <div class="grid">
+      <div class="card" data-search="kevin sagnier direction co-fondateur">
+        <span class="role-badge">Co-fondateur</span>
+        <div class="name">Kévin Sagnier</div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <a href="mailto:ksagnier@eurofiscalis.com">ksagnier@eurofiscalis.com</a>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <a href="tel:+33649760410">+33 (0)6 49 76 04 10</a>
+        </div>
+        <a href="https://outlook.office.com/book/Eurofiscalis2@eurofiscalis.com/" target="_blank" class="btn-book">Prendre RDV</a>
+      </div>
+
+      <div class="card" data-search="denis salomon expert-comptable">
+        <span class="role-badge">Expert-Comptable</span>
+        <div class="name">Denis Salomon</div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <a href="mailto:dsalomon@eurofiscalis.com">dsalomon@eurofiscalis.com</a>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <a href="tel:+33698852009">+33 (0)6 98 85 20 09</a>
+        </div>
+        <a href="https://outlook.office.com/book/Eurofiscalis2@eurofiscalis.com/" target="_blank" class="btn-book">Prendre RDV</a>
+      </div>
+
+      <div class="card" data-search="jeremy sagnier commercial responsable">
+        <span class="role-badge">Responsable Commercial</span>
+        <div class="name">Jérémy Sagnier</div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <a href="mailto:jeremy.sagnier@eurofiscalis.com">jeremy.sagnier@eurofiscalis.com</a>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <a href="tel:+33412391004">+33 (0)4 12 39 10 04</a>
+        </div>
+        <a href="https://outlook.office.com/book/Eurofiscalis2@eurofiscalis.com/" target="_blank" class="btn-book">Prendre RDV</a>
+      </div>
+    </div>
+
+    <h2 class="dept-title">🌍 Pôle TVA</h2>
+    <div class="grid">
+      <div class="card" data-search="jimmy sagnier tva responsable">
+        <span class="role-badge">Responsable TVA</span>
+        <div class="name">Jimmy Sagnier</div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <a href="mailto:jsagnier@eurofiscalis.com">jsagnier@eurofiscalis.com</a>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <a href="tel:+33489375677">+33 (0)4 89 37 56 77</a>
+        </div>
+        <a href="https://outlook.office.com/book/Eurofiscalis2@eurofiscalis.com/" target="_blank" class="btn-book">Prendre RDV</a>
+      </div>
+
+      <div class="card" data-search="severine germano tva chargée compte">
+        <span class="role-badge">Chargée de compte TVA</span>
+        <div class="name">Séverine Germano</div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <a href="mailto:sgermano@eurofiscalis.com">sgermano@eurofiscalis.com</a>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <a href="tel:+33489410257">+33 (0)4 89 41 02 57</a>
+        </div>
+        <a href="https://outlook.office.com/book/Eurofiscalis2@eurofiscalis.com/" target="_blank" class="btn-book">Prendre RDV</a>
+      </div>
+    </div>
+
+    <div class="cta-tva">
+      <h3>✨ Nouveau dossier TVA ?</h3>
+      <p>Pour tout démarrage de nouvelle immatriculation ou question générale d'ouverture.</p>
+      <a href="https://outlook.office.com/book/Eurofiscalis2@eurofiscalis.com/" target="_blank" class="btn-book" style="display:inline-block; margin-top:0;">RDV Démarrage TVA</a>
+    </div>
+
+    <h2 class="dept-title">📊 Pôle Comptabilité</h2>
+    <div class="grid">
+      <div class="card" data-search="stephani garcia comptable chef mission">
+        <span class="role-badge">Chef de Mission</span>
+        <div class="name">Stéphani Garcia</div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <a href="mailto:sgarcia@eurofiscalis.com">sgarcia@eurofiscalis.com</a>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <a href="tel:+33489374109">+33 (0)4 89 37 41 09</a>
+        </div>
+        <a href="https://outlook.office.com/book/Eurofiscalis2@eurofiscalis.com/" target="_blank" class="btn-book">Prendre RDV</a>
+      </div>
+
+      <div class="card" data-search="lemine comptable chef mission">
+        <span class="role-badge">Chef de Mission</span>
+        <div class="name">Lemine</div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <a href="mailto:lemine@eurofiscalis.com">lemine@eurofiscalis.com</a>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <a href="tel:+33412390143">+33 (0)4 12 39 01 43</a>
+        </div>
+        <a href="https://outlook.office.com/book/Eurofiscalis2@eurofiscalis.com/" target="_blank" class="btn-book">Prendre RDV</a>
+      </div>
+
+      <div class="card" data-search="laura gastaldi comptable">
+        <span class="role-badge">Chargée de Compte</span>
+        <div class="name">Laura Gastaldi</div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <a href="mailto:lgastaldi@eurofiscalis.com">lgastaldi@eurofiscalis.com</a>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <a href="tel:+33412392695">+33 (0)4 12 39 26 95</a>
+        </div>
+        <a href="https://outlook.office.com/book/Eurofiscalis2@eurofiscalis.com/" target="_blank" class="btn-book">Prendre RDV</a>
+      </div>
+
+      <div class="card" data-search="vanina derler comptable">
+        <span class="role-badge">Chargée de Compte</span>
+        <div class="name">Vanina Derler</div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <a href="mailto:vderler@eurofiscalis.com">vderler@eurofiscalis.com</a>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <a href="tel:+33412394270">+33 (0)4 12 39 42 70</a>
+        </div>
+        <a href="https://outlook.office.com/book/Eurofiscalis2@eurofiscalis.com/" target="_blank" class="btn-book">Prendre RDV</a>
+      </div>
+
+      <div class="card" data-search="lukas guetti comptable">
+        <span class="role-badge">Chargé de Compte</span>
+        <div class="name">Lukas Guetti</div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <a href="mailto:lguetti@eurofiscalis.com">lguetti@eurofiscalis.com</a>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <a href="tel:+33688298075">+33 (0)6 88 29 80 75</a>
+        </div>
+        <a href="https://outlook.office.com/book/Eurofiscalis2@eurofiscalis.com/" target="_blank" class="btn-book">Prendre RDV</a>
+      </div>
+
+      <div class="card" data-search="charly pelliccia comptable">
+        <span class="role-badge">Chargé de Compte</span>
+        <div class="name">Charly Pelliccia</div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <a href="mailto:cpelliccia@eurofiscalis.com">cpelliccia@eurofiscalis.com</a>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <a href="tel:+33412390147">+33 (0)4 12 39 01 47</a>
+        </div>
+        <a href="https://outlook.office.com/book/Eurofiscalis2@eurofiscalis.com/" target="_blank" class="btn-book">Prendre RDV</a>
+      </div>
+
+      <div class="card" data-search="mohamed boumedine comptable">
+        <span class="role-badge">Chargé de Compte</span>
+        <div class="name">Mohamed Boumedine</div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <a href="mailto:mboumedine@eurofiscalis.com">mboumedine@eurofiscalis.com</a>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <a href="tel:+33412392696">+33 (0)4 12 39 26 96</a>
+        </div>
+        <a href="https://outlook.office.com/book/Eurofiscalis2@eurofiscalis.com/" target="_blank" class="btn-book">Prendre RDV</a>
+      </div>
+
+      <div class="card" data-search="gaelle dietrich comptable">
+        <span class="role-badge">Chargée de Compte</span>
+        <div class="name">Gaëlle Dietrich</div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <a href="mailto:gdietrich@eurofiscalis.com">gdietrich@eurofiscalis.com</a>
+        </div>
+        <a href="https://outlook.office.com/book/Eurofiscalis2@eurofiscalis.com/" target="_blank" class="btn-book">Prendre RDV</a>
+      </div>
+
+      <div class="card" data-search="sherazade ghribi comptable">
+        <span class="role-badge">Chargée de Compte</span>
+        <div class="name">Sherazade Ghribi</div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <a href="mailto:sghribi@eurofiscalis.com">sghribi@eurofiscalis.com</a>
+        </div>
+        <a href="https://outlook.office.com/book/Eurofiscalis2@eurofiscalis.com/" target="_blank" class="btn-book">Prendre RDV</a>
+      </div>
+    </div>
+
+    <h2 class="dept-title">👥 Pôle Social</h2>
+    <div class="grid">
+      <div class="card" data-search="sandrine pons social rh">
+        <span class="role-badge">Pôle Social</span>
+        <div class="name">Sandrine Pons</div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <a href="mailto:sandrine.pons@fidexcomnice.fr">sandrine.pons@fidexcomnice.fr</a>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <a href="tel:+33497140010">+33 (0)4 97 14 00 10</a>
+        </div>
+        <a href="https://outlook.office.com/book/Eurofiscalis2@eurofiscalis.com/" target="_blank" class="btn-book">Prendre RDV</a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>© 2026 Eurofiscalis. Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    function filterContacts() {
+      const input = document.getElementById('searchInput');
+      const filter = input.value.toLowerCase();
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        const searchText = card.getAttribute('data-search');
+        card.style.display = searchText.includes(filter) ? "" : "none";
+      });
+    }
+  </script>
+
+</body>
+</html>
